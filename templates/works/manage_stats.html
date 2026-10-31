@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Статистика — панель администратора{% endblock %}
+{% block content %}
+<section class="section"><div class="container manage-page">
+  <div class="section-kicker">ПАНЕЛЬ АДМИНИСТРАТОРА</div><h1>Статистика <span>сайта.</span></h1>
+  <p>Показатели обновляются на этой странице автоматически. «Сейчас на сайте» — браузеры, активные за последние 2 минуты.</p>
+  <div class="stats-grid">
+    <article class="stat-card"><span>Объекты</span><strong>{{ works_count }}</strong></article>
+    <article class="stat-card"><span>Фотографии объектов</span><strong>{{ photos_count }}</strong></article>
+    <article class="stat-card"><span>Всего аккаунтов пользователей</span><strong>{{ users_count }}</strong></article>
+    <article class="stat-card"><span>Активные аккаунты</span><strong>{{ active_users_count }}</strong></article>
+    <article class="stat-card"><span>Активные администраторы</span><strong>{{ staff_users_count }}</strong></article>
+    <article class="stat-card stat-card-live"><span>Сейчас на сайте</span><strong id="visitors-online">{{ visitors_online }}</strong><small>Обновляется каждые 30 секунд</small></article>
+    <article class="stat-card"><span>Всего посетителей</span><strong id="visitors-total">{{ visitors_total }}</strong><small>Уникальные браузерные сессии, сохранённые с момента включения статистики.</small></article>
+  </div>
+  <section class="stats-chart" aria-label="Диаграмма количества пользователей и посетителей">
+    <h2>Посетители и пользователи</h2><p class="stats-chart-subtitle">Высота столбца соответствует количеству. Шкала начинается с нуля.</p>
+    <div class="bar-chart" id="visitors-chart" data-total-users="{{ users_count }}" data-online="{{ visitors_online }}" data-total-visitors="{{ visitors_total }}">
+      <div class="chart-column"><div class="chart-bar-wrap"><div class="chart-bar" id="bar-users" style="height:{{ users_count|default:0 }}%"></div></div><strong id="chart-users-value">{{ users_count }}</strong><span>Аккаунты</span></div>
+      <div class="chart-column"><div class="chart-bar-wrap"><div class="chart-bar" id="bar-online" style="height:{{ visitors_online|default:0 }}%"></div></div><strong id="chart-online-value">{{ visitors_online }}</strong><span>Сейчас на сайте</span></div>
+      <div class="chart-column"><div class="chart-bar-wrap"><div class="chart-bar" id="bar-total" style="height:{{ visitors_total|default:0 }}%"></div></div><strong id="chart-total-value">{{ visitors_total }}</strong><span>Всего посетителей</span></div>
+    </div>
+    <small class="chart-note">Для наглядности столбцы нормируются относительно наибольшего показателя на графике; нулевое значение остаётся у основания.</small>
+  </section>
+  <div class="manage-toolbar"><a class="button button-dark" href="{% url 'manage_works' %}">Назад к объектам</a></div>
+</div></section>
+<script>
+(function(){
+ const endpoint="{% url 'visitor_heartbeat' %}";
+ const onlineEl=document.getElementById('visitors-online');
+ const totalEl=document.getElementById('visitors-total');
+ const chart=document.getElementById('visitors-chart');
+ if(!onlineEl||!totalEl||!chart)return;
+ function updateBars(online,total){
+   const users=Number(chart.dataset.totalUsers)||0;
+   const max=Math.max(users,online,total,1);
+   [['bar-users',users],['bar-online',online],['bar-total',total]].forEach(function(item){
+     const el=document.getElementById(item[0]); if(el)el.style.height=(item[1]===0?0:Math.max(3,item[1]/max*100))+'%';
+   });
+   document.getElementById('chart-users-value').textContent=users;
+   document.getElementById('chart-online-value').textContent=online;
+   document.getElementById('chart-total-value').textContent=total;
+ }
+ async function refresh(){
+   try{const response=await fetch(endpoint,{cache:'no-store',credentials:'same-origin'});if(!response.ok)return;const data=await response.json();
+     onlineEl.textContent=data.online; totalEl.textContent=data.total; updateBars(data.online,data.total);
+   }catch(e){}
+ }
+ updateBars(Number(onlineEl.textContent)||0,Number(totalEl.textContent)||0);
+ window.setInterval(refresh,30000);
+})();
+</script>
+{% endblock %}

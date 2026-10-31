@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 780" role="img" aria-labelledby="title">
+<title id="title">Иллюстрация электромонтажных работ</title>
+<defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#253a35"/><stop offset="1" stop-color="#101c1a"/></linearGradient><linearGradient id="panel" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#e4e6dc"/><stop offset="1" stop-color="#aeb9ad"/></linearGradient></defs>
+<rect width="700" height="780" fill="url(#bg)"/><path d="M0 620L700 490V780H0Z" fill="#172622"/><path d="M60 0V780M640 0V780" stroke="#ffffff" opacity=".06" stroke-width="2"/>
+<rect x="130" y="100" width="440" height="500" rx="10" fill="#0b1312" opacity=".5"/><rect x="155" y="125" width="390" height="470" rx="7" fill="url(#panel)"/>
+<rect x="184" y="155" width="332" height="410" rx="4" fill="#f4f3e9"/><rect x="205" y="177" width="290" height="60" rx="3" fill="#d7ded2"/>
+<g fill="#243b35"><rect x="222" y="193" width="24" height="29" rx="3"/><rect x="257" y="193" width="24" height="29" rx="3"/><rect x="292" y="193" width="24" height="29" rx="3"/><rect x="327" y="193" width="24" height="29" rx="3"/><rect x="362" y="193" width="24" height="29" rx="3"/><rect x="397" y="193" width="24" height="29" rx="3"/><rect x="432" y="193" width="24" height="29" rx="3"/></g>
+<g stroke="#bdc6ba" stroke-width="4"><path d="M210 267H490M210 292H490M210 317H490M210 342H490M210 367H490M210 392H490M210 417H490M210 442H490M210 467H490M210 492H490M210 517H490"/></g>
+<g fill="#d6a64b"><circle cx="240" cy="267" r="8"/><circle cx="320" cy="317" r="8"/><circle cx="400" cy="367" r="8"/><circle cx="280" cy="417" r="8"/><circle cx="440" cy="467" r="8"/></g>
+<path d="M60 685C150 650 175 675 235 620S325 560 355 595 420 655 470 620 555 585 640 625" fill="none" stroke="#d6a64b" stroke-width="12" stroke-linecap="round"/><path d="M60 710C160 680 185 710 245 655S325 595 355 630 420 690 470 655 555 620 640 660" fill="none" stroke="#e7e8dc" stroke-width="8" stroke-linecap="round"/>
+<circle cx="545" cy="160" r="46" fill="#d6a64b"/><path d="M551 121L524 164H546L535 198L570 151H548Z" fill="#1c302a"/>
+<text x="350" y="745" font-family="Arial,sans-serif" font-size="15" letter-spacing="4" text-anchor="middle" fill="#dfe4d9">ELECTRICAL WORKS</text></svg>

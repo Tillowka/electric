@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Изменить {{ work.title }}{% endblock %}
+{% block content %}
+<section class="section"><div class="container manage-page">
+  <div class="section-kicker">ПАНЕЛЬ АДМИНИСТРАТОРА</div><h1>Изменить <span>объект.</span></h1>
+  {% if messages %}{% for message in messages %}<p class="manage-message">{{ message }}</p>{% endfor %}{% endif %}
+  <form method="post" enctype="multipart/form-data" class="manage-form">{% csrf_token %}
+    <fieldset class="manage-fieldset"><legend>Основные данные</legend>{{ form.as_p }}</fieldset>
+    <fieldset class="manage-fieldset"><legend>Существующие фотографии</legend>
+      <p>Здесь можно удалить старые фотографии. Для добавления новых используйте отдельную страницу.</p>
+      {{ images.management_form }}
+      {% for image in images %}
+        <div class="photo-edit-row">
+          {% for hidden in image.hidden_fields %}{{ hidden }}{% endfor %}
+          {% if image.instance.pk and image.instance.image %}<img class="photo-edit-preview" src="{{ image.instance.image.url }}" alt="{{ image.instance.caption|default:work.title }}">{% endif %}
+          <div class="photo-edit-fields">
+            <p>{{ image.caption.label_tag }}{{ image.caption }}{{ image.caption.errors }}</p>
+            <p>{{ image.order.label_tag }}{{ image.order }}{{ image.order.errors }}</p>
+            {% if image.DELETE %}<label class="delete-photo-check">{{ image.DELETE }} Удалить эту фотографию</label>{% endif %}
+            {% for error in image.non_field_errors %}<p class="field-error">{{ error }}</p>{% endfor %}
+          </div>
+        </div>
+      {% empty %}<p>У объекта пока нет дополнительных фотографий.</p>{% endfor %}
+    </fieldset>
+    <div class="manage-toolbar"><button class="button button-primary" type="submit">Сохранить изменения</button><a class="button button-dark" href="{% url 'add_work_photos' work.pk %}">Добавить фотографии</a><a class="button button-dark" href="{% url 'manage_works' %}">Назад</a></div>
+  </form>
+</div></section>
+{% endblock %}

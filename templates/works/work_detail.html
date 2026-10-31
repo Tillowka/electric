@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}{{ work.title }} — выполненный объект{% endblock %}
+{% block meta_description %}{{ work.short_description }}{% endblock %}
+{% block content %}
+<section class="detail-hero">
+  <div class="container">
+    <a class="back-link" href="{% url 'home' %}#works">← Все объекты</a>
+    <div class="detail-kicker">ПОРТФОЛИО / ОБЪЕКТ</div>
+    <div class="detail-heading">
+      <div><h1>{{ work.title }}</h1>{% if work.location %}<div class="detail-location">⌖ {{ work.location }}</div>{% endif %}</div>
+      {% if work.completed_on %}<div class="completion-date"><span>ЗАВЕРШЕНО</span><strong>{{ work.completed_on|date:"d.m.Y" }}</strong></div>{% endif %}
+    </div>
+    <p class="detail-lead">{{ work.short_description }}</p>
+    <div class="detail-cover"><img src="{{ work.cover.url }}" alt="{{ work.title }}"></div>
+  </div>
+</section>
+<section class="detail-content section">
+  <div class="container detail-content-grid">
+    <div><div class="section-kicker">ОБ ЭТОМ ОБЪЕКТЕ</div><h2>Задача и <span>результат.</span></h2></div>
+    <div class="detail-description">{{ work.description|linebreaks }}</div>
+  </div>
+</section>
+{% with photos=work.images.all %}
+{% if photos %}
+<section class="gallery-section section">
+  <div class="container">
+    <div class="section-kicker">ФОТОГРАФИИ / ПРОЦЕСС И РЕЗУЛЬТАТ</div>
+    <h2>Детали <span>работы.</span></h2>
+    <div class="gallery-grid">
+      {% for photo in photos %}
+      <figure class="gallery-item">
+        <img src="{{ photo.image.url }}" alt="{{ photo.caption|default:work.title }}" loading="lazy">
+        {% if photo.caption %}<figcaption>{{ photo.caption }}</figcaption>{% endif %}
+      </figure>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endwith %}
+
+<section class="detail-cta">
+  <div class="container detail-cta-inner"><div><span class="section-kicker light-kicker">СЛЕДУЮЩИЙ ШАГ</span><h2>Нужна помощь<br>с электрикой?</h2></div><a class="button button-primary" href="{% url 'home' %}#contact">Обсудить проект <span>↗</span></a></div>
+</section>
+{% endblock %}

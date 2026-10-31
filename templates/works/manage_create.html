@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Добавить объекты{% endblock %}
+{% block content %}
+<section class="section"><div class="container">
+  <div class="section-kicker">ПАНЕЛЬ АДМИНИСТРАТОРА</div><h1>Создать <span>объекты.</span></h1>
+  <p>Заполните одну или несколько карточек. Пустые карточки будут пропущены. Чтобы добавить больше объектов, нажмите «＋ Ещё объект».</p>
+  {% if messages %}{% for message in messages %}<p class="manage-message">{{ message }}</p>{% endfor %}{% endif %}
+  <form method="post" enctype="multipart/form-data" class="manage-form" id="works-form">{% csrf_token %}{{ formset.management_form }}
+    <div id="work-forms">{% for form in formset %}<fieldset class="manage-fieldset work-form-card"><legend>Объект {{ forloop.counter }}</legend>{{ form.as_p }}</fieldset>{% endfor %}</div>
+    <template id="empty-form-template"><fieldset class="manage-fieldset work-form-card"><legend>Новый объект</legend>{{ formset.empty_form.as_p }}</fieldset></template>
+    <button class="button button-dark" type="button" id="add-work-form">＋ Ещё объект</button>
+    <div style="margin-top:22px"><button class="button button-primary" type="submit">Сохранить объекты</button> <a class="button button-dark" href="{% url 'manage_works' %}">Отмена</a></div>
+  </form>
+</div></section>
+<script>
+(function(){const add=document.getElementById('add-work-form'),wrap=document.getElementById('work-forms'),total=document.getElementById('id_works-TOTAL_FORMS'),tpl=document.getElementById('empty-form-template');if(!add||!wrap||!total||!tpl)return;add.addEventListener('click',function(){const i=Number(total.value),html=tpl.innerHTML.replaceAll('__prefix__',i);wrap.insertAdjacentHTML('beforeend',html);const legend=wrap.lastElementChild.querySelector('legend');if(legend)legend.textContent='Объект '+(i+1);total.value=i+1;});})();
+</script>
+{% endblock %}

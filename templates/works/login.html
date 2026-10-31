@@ -1,0 +1,4 @@
+{% extends "base.html" %}
+{% block title %}Вход администратора{% endblock %}
+{% block content %}<section class="section"><div class="container" style="max-width:620px"><div class="section-kicker">ЗАКРЫТЫЙ ДОСТУП</div><h1>Вход <span>администратора.</span></h1><p>Войдите с учётной записью администратора, созданной командой createsuperuser.</p>
+<form method="post" class="manage-form">{% csrf_token %}{% if form.errors %}<p class="manage-message" role="alert">Неверный логин или пароль. Попробуйте ещё раз.</p>{% endif %}{{ form.as_p }}<input type="hidden" name="next" value="{{ next|default:'/manage/' }}"><button class="button button-primary" type="submit">Войти</button> <a class="button button-dark" href="{% url 'home' %}">На главную</a></form></div></section>{% endblock %}

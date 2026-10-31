@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Добавить фотографии — {{ work.title }}{% endblock %}
+{% block content %}
+<section class="section"><div class="container manage-page">
+  <div class="section-kicker">ПАНЕЛЬ АДМИНИСТРАТОРА</div>
+  <h1>Добавить <span>фотографии.</span></h1>
+  <p class="manage-intro">Объект: <strong>{{ work.title }}</strong>. Выбери несколько фотографий сразу. Описание каждой фотографии необязательно. Старые фотографии здесь не отображаются.</p>
+  {% if messages %}{% for message in messages %}<p class="manage-message">{{ message }}</p>{% endfor %}{% endif %}
+  <form method="post" enctype="multipart/form-data" class="manage-form photo-upload-form">{% csrf_token %}
+    <fieldset class="manage-fieldset"><legend>Новые фотографии</legend>
+      {% if form.non_field_errors %}{{ form.non_field_errors }}{% endif %}
+      <p>{{ form.images.label_tag }}{{ form.images }}{% if form.images.help_text %}<small class="helptext">{{ form.images.help_text }}</small>{% endif %}{{ form.images.errors }}</p>
+      <div id="selected-files" class="selected-files" aria-live="polite">Сначала выбери фотографии — ниже появятся необязательные описания.</div>
+      <div id="photo-captions" class="photo-captions"></div>
+    </fieldset>
+    <div class="manage-toolbar"><button class="button button-primary" type="submit">Загрузить фотографии</button><a class="button button-dark" href="{% url 'manage_works' %}">Отмена</a></div>
+  </form>
+</div></section>
+<script>
+(function(){
+ const input=document.querySelector('input[type="file"][name="images"]');
+ const output=document.getElementById('selected-files');
+ const captions=document.getElementById('photo-captions');
+ if(!input||!output||!captions)return;
+ input.addEventListener('change',function(){
+   captions.replaceChildren();
+   if(!input.files.length){output.textContent='Файлы не выбраны';return;}
+   output.textContent='Выбрано фотографий: '+input.files.length;
+   Array.from(input.files).forEach(function(file,index){
+     const row=document.createElement('div'); row.className='caption-upload-row';
+     const label=document.createElement('label'); label.htmlFor='caption_'+index; label.textContent=file.name;
+     const field=document.createElement('input'); field.type='text'; field.name='caption_'+index; field.id='caption_'+index; field.maxLength=220; field.placeholder='Описание (необязательно)';
+     row.append(label,field); captions.appendChild(row);
+   });
+ });
+})();
+</script>
+{% endblock %}

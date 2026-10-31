@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Управление объектами{% endblock %}
+{% block content %}
+<section class="section"><div class="container manage-page">
+  <div class="section-kicker">ПАНЕЛЬ АДМИНИСТРАТОРА</div>
+  <h1>Управление <span>объектами.</span></h1>
+  <p>Создавайте объекты, редактируйте описание, добавляйте фотографии на отдельной странице или удаляйте ненужные объекты.</p>
+  {% if messages %}{% for message in messages %}<p class="manage-message">{{ message }}</p>{% endfor %}{% endif %}
+  <div class="manage-toolbar">
+    <a class="button button-primary" href="{% url 'create_works' %}">＋ Добавить объект</a>
+    <a class="button button-dark" href="{% url 'manage_stats' %}">Статистика</a>
+  </div>
+  {% if works %}<div class="manage-table">{% for work in works %}<article class="manage-row"><div class="manage-row-info"><strong>{{ work.title }}</strong><p>{{ work.short_description }}</p><small>Фотографий: {{ work.photo_count }}{% if work.location %} · {{ work.location }}{% endif %}</small></div><div class="manage-actions"><a class="button button-dark" href="{% url 'edit_work' work.pk %}">Изменить</a><a class="button button-dark" href="{% url 'add_work_photos' work.pk %}">Добавить фото</a><form method="post" action="{% url 'delete_work' work.pk %}" onsubmit="return confirm('Удалить объект и все его фотографии? Это действие нельзя отменить.');">{% csrf_token %}<button class="button button-danger" type="submit">Удалить</button></form></div></article>{% endfor %}</div>{% else %}<p>Объектов пока нет.</p>{% endif %}
+</div></section>
+{% endblock %}

@@ -1,0 +1,42 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="{% block meta_description %}Портфолио электрика: выполненные объекты, электромонтажные работы и услуги.{% endblock %}">
+  <title>{% block title %}Электрик — портфолио работ{% endblock %}</title>
+  <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="{% url 'home' %}"><span class="brand-mark">⚡</span> Электромонтаж</a>
+      <nav aria-label="Основная навигация">
+        <a href="{% url 'home' %}#about">О специалисте</a>
+        <a href="{% url 'home' %}#works">Работы</a>
+        <a class="nav-contact" href="{% url 'home' %}#contact">Связаться</a>
+        {% if request.user.is_authenticated and request.user.is_staff %}
+          <a class="nav-contact" href="{% url 'manage_works' %}">Управление</a>
+        {% else %}
+          <a class="nav-contact" href="{% url 'admin_login' %}">Войти</a>
+        {% endif %}
+      </nav>
+    </div>
+  </header>
+  <main>{% block content %}{% endblock %}</main>
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <a class="brand footer-brand" href="{% url 'home' %}"><span class="brand-mark">⚡</span> Электромонтаж</a>
+      <p>Качественно. Безопасно. С вниманием к деталям.</p>
+      <span>© {% now "Y" %} Портфолио работ</span>
+    </div>
+  </footer>
+  <script>
+  (function(){
+    const url="{% url 'visitor_heartbeat' %}";
+    window.setInterval(function(){fetch(url,{method:'GET',cache:'no-store',credentials:'same-origin'}).catch(function(){});},30000);
+  })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %}Электрик — выполненные работы и опыт{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <div class="eyebrow"><span class="eyebrow-line"></span> Профессиональные электромонтажные услуги</div>
+      <h1>Электрика,<br><span>которой можно доверять.</span></h1>
+      <p class="hero-text">Монтаж, обслуживание и обновление электрических систем. Здесь собраны реальные объекты и выполненные работы — от первой задачи до готового результата.</p>
+      <div class="hero-actions">
+        <a class="button button-primary" href="#works">Посмотреть работы <span>↘</span></a>
+        <a class="text-link" href="#about">Подробнее обо мне <span>→</span></a>
+      </div>
+      <div class="hero-stats">
+        <div><strong>Опыт 5+ лет</strong><span>Практическая работа на объектах</span></div>
+        <div><strong>Безопасность</strong><span>Внимание к деталям и нормам</span></div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-image-frame">
+        <img src="{% static 'img/electrical-work.svg' %}" alt="Иллюстрация электромонтажных работ">
+        <div class="image-note"><span class="note-dot"></span><div><strong>От проекта до результата</strong><small>Работы с понятным описанием</small></div></div>
+      </div>
+      <div class="visual-index">01 <span>—</span> ПОРТФОЛИО</div>
+    </div>
+  </div>
+</section>
+
+<section class="about section" id="about">
+  <div class="container about-grid">
+    <div>
+      <div class="section-kicker">01 / О СПЕЦИАЛИСТЕ</div>
+      <h2>Опыт, аккуратность<br>и <span>ответственный подход.</span></h2>
+    </div>
+    <div class="about-copy">
+      <p>Я выполняю электромонтажные работы и помогаю сделать электросистему удобной, надёжной и безопасной. Для меня важно не просто завершить монтаж, а продумать детали, порядок работ и конечный результат.</p>
+      <p>На сайте представлены объекты, над которыми я работал. Откройте любую карточку, чтобы увидеть фотографии и описание выполненных задач.</p>
+      <div class="service-tags"><span>Электромонтаж</span><span>Освещение</span><span>Розетки и линии</span><span>Обновление проводки</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="works-section section" id="works">
+  <div class="container">
+    <div class="works-heading">
+      <div><div class="section-kicker">02 / ПОРТФОЛИО</div><h2>Выполненные <span>объекты.</span></h2></div>
+      <p>Каждый объект — отдельная задача,<br>решение и результат.</p>
+    </div>
+    {% if works %}
+    <div class="work-grid">
+      {% for work in works %}
+      <a class="work-card" href="{{ work.get_absolute_url }}">
+        <div class="work-cover">
+          <img src="{{ work.cover.url }}" alt="{{ work.title }}" loading="lazy">
+          <span class="cover-arrow" aria-hidden="true">↗</span>
+          {% if work.location %}<span class="cover-label">{{ work.location }}</span>{% endif %}
+        </div>
+        <div class="work-card-info">
+          <div><span class="work-number">{{ forloop.counter|stringformat:"02d" }}</span><h3>{{ work.title }}</h3></div>
+          <p>{{ work.short_description }}</p>
+          <span class="card-link">Смотреть объект <span>→</span></span>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+      <div class="empty-icon">＋</div>
+      <h3>Портфолио скоро пополнится</h3>
+      <p>Добавьте первый объект через панель управления сайтом.</p>
+      <a class="button button-dark" href="{% url 'admin_login' %}">Войти для управления</a>
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+<section class="contact-section" id="contact">
+  <div class="container contact-inner">
+    <div><div class="section-kicker light-kicker">03 / СВЯЗЬ</div><h2>Есть задача?<br><span>Обсудим ваш объект.</span></h2></div>
+    <div class="contact-copy">
+      <p>Свяжитесь со мной, чтобы обсудить объём работ, сроки и детали проекта.</p>
+      <!-- Замените контакты ниже на реальные перед публикацией. -->
+      <a class="contact-placeholder" href="tel:+998000000000">+998 (__) ___-__-__ <span>↗</span></a>
+      <small>Замените номер телефона в шаблоне на контакт клиента.</small>
+    </div>
+  </div>
+</section>
+{% endblock %}
